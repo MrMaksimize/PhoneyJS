@@ -89,3 +89,4 @@ this.clickbuster.onClick = function(event) {
 
 document.addEventListener('click', clickbuster.onClick, true);
 clickbuster.coordinates = [];
+alert('touch');

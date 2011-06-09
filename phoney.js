@@ -1,11 +1,18 @@
 ;(function(window, undefined) {
-  /*function isIphone(){
-    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-  }
-    return true; //or false
-  }*/
+  
+  //before we do anything, we have to ask if the device is touch capable.  if it is, we're going to
+  //user Modernizr to load toucher.js to handle all the weirdness with touching.
+  
+  Modernizr.load({
+    test: Modernizr.touch,
+    yep : 'toucher.js'
+  });
+  
+  console.log(Modernizr.touch);
+  
   /*all our testing will be done through Modernizr, because it's already there so why not? */
   //TODO - add tests for webkit and for app installed
+  
   Modernizr.addTest('iPad', function () {
     return !!navigator.userAgent.match(/iPad/i);
   });
@@ -80,10 +87,14 @@
     
     for (i = 0; i < elements.length; i++){
       console.log(elements[i]);
-        elements[i].addEventListener('click', function(){
+      /*FastButton(elements[i], function(){
+        console.log('touch');
+        })*/
+        /*elements[i].addEventListener('click', function(){
           this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
           console.log(this.getAttribute('href'));
-          });
+          });*/
+        
     }//for
   }//startlistening
   console.log(this.activeRouter);
