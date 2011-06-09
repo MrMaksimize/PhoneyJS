@@ -41,7 +41,6 @@
   //break apart the groups and determine which group are we in
   function determineGroup(groups){
     var activeGroup = 'default';
-    console.log(groups);
     for (var key in groups){
       if (key !== 'default'){
         activeGroup = groupValidate(key, groups[key].split(' '));
@@ -55,23 +54,71 @@
     return activeGroup;
   }
   
-  this.Phoney = function(config) { //pass in objects here
+  function replaceHref(href, router){
+    /*here we need to account for a few things:
+     what if there's no match?
+     what if it's more than one link?
+    */
+    console.log('oldhref= ' + href);
+    console.log(router);
+    newHref = router[href];
+    return newHref;
+  }
   
+  this.Phoney = function(config) { //pass in objects here
   if(!(this instanceof Phoney)) return new Phoney(config);
-  group = determineGroup(config.groups);
+  console.log(this);
+  this.activeGroup = determineGroup(config.groups);
+  this.activeRouter = config.routers[this.activeGroup];
+  
+  this.startListening = function(){
+    var activeRouter = this.activeRouter;
+    var elements;
+    console.log('listening now');
+    elements = document.getElementsByTagName('a');
+    console.log(elements);
+    
+    for (i = 0; i < elements.length; i++){
+      console.log(elements[i]);
+        elements[i].addEventListener('click', function(){
+          this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
+          console.log(this.getAttribute('href'));
+          });
+    }//for
+  }//startlistening
+  console.log(this.activeRouter);
   return this;
   }
 })(this);
 
 
 //this would normally be somewhere else
+
 var config = {
   groups : { //groups will be evaluated as they are defined
     //groups are matched using AND.  if one of the properties does not match, the group falls out.
     'html5': 'localStorage webkit',
     'iphoneApp': 'iPhone iPhoneAppInstalled',
     'default': 'default'
+  },
+  routers: {
+    'html5': { //routes for html5 group match
+      //search : replace
+      'http://www.google.com': 'http://www.bing.com',
+      'groups.html' : 'groups-html5.html',
+      'index.html' : 'index-html5.html'
+    }
+    
   }
-  }
-  var Phoney = Phoney(config);
+}
+
+var Phoney = Phoney(config);
+
+window.onload = function(){
+  console.log('ready');
+  Phoney.startListening();
+}
+  
+  
+  
   
