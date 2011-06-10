@@ -3,12 +3,11 @@
   //before we do anything, we have to ask if the device is touch capable.  if it is, we're going to
   //user Modernizr to load toucher.js to handle all the weirdness with touching.
   
-  Modernizr.load({
+  /*Modernizr.load({
     test: Modernizr.touch,
     yep : 'toucher.js'
-  });
+  });*/
   
-  console.log(Modernizr.touch);
   
   /*all our testing will be done through Modernizr, because it's already there so why not? */
   //TODO - add tests for webkit and for app installed
@@ -84,16 +83,22 @@
     console.log('listening now');
     elements = document.getElementsByTagName('a');
     console.log(elements);
-    
     for (i = 0; i < elements.length; i++){
       console.log(elements[i]);
-      /*FastButton(elements[i], function(){
-        console.log('touch');
-        })*/
+      
+        
+      new FastButton(elements[i], function(){
+        //this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
+        alert(i);
+        event.preventDefault();
+        event.stopPropagation();
+        });
+        
         /*elements[i].addEventListener('click', function(){
           this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
           console.log(this.getAttribute('href'));
-          });*/
+          });
+        */
         
     }//for
   }//startlistening

@@ -1,16 +1,20 @@
 ;(function(window, undefined) {
-
-/*Construct the FastButton with a reference to the element and click handler.*/
+  /*Construct the FastButton with a reference to the element and click handler.*/
+  this.FastButtons = {};
+  
   this.FastButton = function(element, handler) {
     console.log('fastbutton init');
+    console.log(this);
     this.element = element;
     this.handler = handler;
+    console.log(this);
     element.addEventListener('touchstart', this, false);
     element.addEventListener('click', this, false);
   };
 
 /*acts as an event dispatcher*/
   this.FastButton.prototype.handleEvent = function(event) {
+    console.log(event);
     switch (event.type) {
       case 'touchstart': this.onTouchStart(event); break;
       case 'touchmove': this.onTouchMove(event); break;
@@ -45,7 +49,6 @@
     this.handler(event);
     if (event.type == 'touchend') {
       console.log('touchend');
-      console.log(this);
       //clickbuster.preventGhostClick(this.startX, this.startY);
     }
   };
@@ -82,11 +85,11 @@ this.clickbuster.onClick = function(event) {
     }
   }
 };
-  
+console.log(this);
+  return this;
 })(this);
 
 
 
 document.addEventListener('click', clickbuster.onClick, true);
 clickbuster.coordinates = [];
-alert('touch');
