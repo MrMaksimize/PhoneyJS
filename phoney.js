@@ -87,7 +87,7 @@
       console.log(elements[i]);
       
         
-      new FastButton(elements[i], function(){
+        new FastButton(elements[i], function(){
         //this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
         alert(i);
         event.preventDefault();
