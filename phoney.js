@@ -79,28 +79,17 @@
   
   this.startListening = function(){
     var activeRouter = this.activeRouter;
-    var elements;
+    window.onclick = function(event){
+      console.log(event);
+      element = event.srcElement;
+      if (element.nodeName === "A") {
+        element.setAttribute('href', replaceHref(element.getAttribute('href'), activeRouter));
+        console.log(element);
+      }
+  event.preventDefault();
+}
     console.log('listening now');
-    elements = document.getElementsByTagName('a');
-    console.log(elements);
-    for (i = 0; i < elements.length; i++){
-      console.log(elements[i]);
-      
-        
-        new FastButton(elements[i], function(){
-        //this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
-        alert(i);
-        event.preventDefault();
-        event.stopPropagation();
-        });
-        
-        /*elements[i].addEventListener('click', function(){
-          this.setAttribute('href', replaceHref(this.getAttribute('href'), activeRouter));
-          console.log(this.getAttribute('href'));
-          });
-        */
-        
-    }//for
+    
   }//startlistening
   console.log(this.activeRouter);
   return this;
