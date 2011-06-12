@@ -77,42 +77,51 @@
       
         if (href.match(exp)){ //if regex matches
           console.log('MATCH');
-          var matchedURL; //href, key
-          matchedURL = router[key];
-        
-        //console.log(matchedURL = matchedURL.split('*')); //splits matched url at *
+          var routerNew, routerOld, i, n; //href, key
+          routerNew = router[key];
+          routerOld = key;
+        //console.log(routerNew = routerNew.split('*')); //splits matched url at *
         /*now that we've been able to match the key,
         and we KNOW what the router says, we have to replace
         the clicked HREF with the router definition*/
         //HERE COMES SOME COMPLICATED ASS REGEX
           console.log('clicked href = ' + href);
           console.log('key = ' + key)
-          console.log('routermatch = ' + matchedURL);
+          console.log('routermatch = ' + routerNew);
         
-          matchedURL = matchedURL.split('/');
+          routerNew = routerNew.split('/');
+          routerOld = routerOld.split('/');
           href = href.split('/');
         
           console.log('splits');
           console.log('clicked href = ' + href);
           console.log('key = ' + key)
-          console.log('routermatch = ' + matchedURL);
-          //if (href.length === matchedURL.length){
-            console.log('length match, just match strings');
+          console.log('routermatch = ' + routerNew);
+          //if (href.length === routerNew.length){
             for (i = 0; i < href.length; i++){
-              console.log(href[i] + ' -- >' + matchedURL[i]);
-              if(href[i] === matchedURL[i]){
-                newHref[i] = matchedURL[i];
+              if(href[i] === routerNew[i]){
+                console.log('  ----- >>>> ' + routerNew[i]);
+                newHref.push(routerNew[i]);
               }
               else {
-                if(matchedURL[i] === '*'){
+                if(routerNew[i] === '*'){
                     for (n = i; n < href.length; n++){
-                      newHref[i] = '/' + href[n];
+                      if (href[n] === routerOld[i+1]){
+                     break;
+                      }
+                      else{
+                        console.log(' n ----- >>>> ' + href[n]);
+                         newHref.push(href[n]);
+                      }
                     }
                   //newHref[i] = href[i];
                   
                 }
                 else{
-                  newHref[i] = matchedURL[i];
+                  if (routerNew[i]){
+                    newHref.push(routerNew[i]);
+                  }
+                  
                 }
               }
             }//for
@@ -120,12 +129,13 @@
             newHref = newHref.join('/');
             console.log(newHref);
           //}//if
+          return newHref;
           
           }//if match
           
           //console.log(href.match(exp));
           
-          //console.log(matchedURL = )
+          //console.log(routerNew = )
           
           //return router[key];
         }
