@@ -61,42 +61,73 @@
   }
   
   function replaceHref(href, router){
-    //href = href.replace(/(\/|\.|\*)/g, '\\$1');
-    //exp = RegExp(href);
+    var newHref = [];
     if (router[href]){
       return router[href];
     }
     else{
-      
-    for (var key in router){
-        //console.log (key + ' ----> ' + router[key]);
-        //regixify url from original link, put it into a variable
+      for (var key in router){
+      //console.log (key + ' ----> ' + router[key]);
+      //regixify url from original link, put it into a variable
         keyReg = key.replace(/(\/|\.)/g, '\\$1');
-        //replace the star with a regex pattern
-         keyReg = keyReg.replace("*", "(([\\w-_\\.?]+\\/?)+)");
+      //replace the star with a regex pattern
+        keyReg = keyReg.replace("*", "(([\\w-_\\.?]+\\/?)+)");
         exp = RegExp(keyReg); // and make it into a regex
         //console.log(exp);
-        
+      
         if (href.match(exp)){ //if regex matches
-          console.log('MATCH')
-          //console.log('regex = ' + exp);
-          //console.log('href = ' + href);
+          console.log('MATCH');
           var matchedURL; //href, key
           matchedURL = router[key];
-          //console.log(matchedURL = matchedURL.split('*')); //splits matched url at *
-          /*now that we've been able to match the key,
-          and we KNOW what the router says, we have to replace
-          the clicked HREF with the router definition*/
-          //HERE COMES SOME COMPLICATED ASS REGEX
+        
+        //console.log(matchedURL = matchedURL.split('*')); //splits matched url at *
+        /*now that we've been able to match the key,
+        and we KNOW what the router says, we have to replace
+        the clicked HREF with the router definition*/
+        //HERE COMES SOME COMPLICATED ASS REGEX
+          console.log('clicked href = ' + href);
           console.log('key = ' + key)
           console.log('routermatch = ' + matchedURL);
+        
+          matchedURL = matchedURL.split('/');
+          href = href.split('/');
+        
+          console.log('splits');
           console.log('clicked href = ' + href);
+          console.log('key = ' + key)
+          console.log('routermatch = ' + matchedURL);
+          //if (href.length === matchedURL.length){
+            console.log('length match, just match strings');
+            for (i = 0; i < href.length; i++){
+              console.log(href[i] + ' -- >' + matchedURL[i]);
+              if(href[i] === matchedURL[i]){
+                newHref[i] = matchedURL[i];
+              }
+              else {
+                if(matchedURL[i] === '*'){
+                    for (n = i; n < href.length; n++){
+                      newHref[i] = '/' + href[n];
+                    }
+                  //newHref[i] = href[i];
+                  
+                }
+                else{
+                  newHref[i] = matchedURL[i];
+                }
+              }
+            }//for
+            console.log(newHref);
+            newHref = newHref.join('/');
+            console.log(newHref);
+          //}//if
+          
+          }//if match
           
           //console.log(href.match(exp));
           
           //console.log(matchedURL = )
           
-          return router[key];
+          //return router[key];
         }
         
         
@@ -107,7 +138,7 @@
         }*/
       }
       }
-  }
+  
     
     /*here we need to account for a few things:
      what if there's no match?
