@@ -69,7 +69,7 @@
     else{
       
     for (var key in router){
-        console.log (key + ' ----> ' + router[key]);
+        //console.log (key + ' ----> ' + router[key]);
         //regixify url from original link, put it into a variable
         keyReg = key.replace(/(\/|\.)/g, '\\$1');
         //replace the star with a regex pattern
@@ -79,14 +79,21 @@
         
         if (href.match(exp)){ //if regex matches
           console.log('MATCH')
-          console.log('regex = ' + exp);
-          console.log('href = ' + href);
+          //console.log('regex = ' + exp);
+          //console.log('href = ' + href);
           var matchedURL; //href, key
           matchedURL = router[key];
           //console.log(matchedURL = matchedURL.split('*')); //splits matched url at *
-          console.log(matchedURL);
-          console.log(href);
-          console.log(href.match(exp));
+          /*now that we've been able to match the key,
+          and we KNOW what the router says, we have to replace
+          the clicked HREF with the router definition*/
+          //HERE COMES SOME COMPLICATED ASS REGEX
+          console.log('key = ' + key)
+          console.log('routermatch = ' + matchedURL);
+          console.log('clicked href = ' + href);
+          
+          //console.log(href.match(exp));
+          
           //console.log(matchedURL = )
           
           return router[key];
@@ -152,7 +159,7 @@ var config = {
       'groups.html' : 'groups-html5.html',
       'index.html' : 'index-html5.html',
       'somefolder/*': 'somehtml5folder/*', //this one will do matching for all subdirs
-      'somefolder/*/index' : 'somefolder/*/index5'
+      'somenewfolder/*/index' : 'somenewfolder/*/index5'
     }
     
   }
