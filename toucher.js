@@ -1,6 +1,5 @@
 ;(function(window, undefined) {
   /*Construct the FastButton with a reference to the element and click handler.*/
-  this.Toucher = {};
   this.FastButton = function(element, handler) {
     console.log('fastbutton init');
     console.log(this);

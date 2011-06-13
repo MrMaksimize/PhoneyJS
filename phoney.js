@@ -36,7 +36,6 @@
   function groupValidate(groupName, groupChecks){
     for (var key in groupChecks){
       prop = groupChecks[key].toLowerCase();
-      console.log(prop + ' ' + Modernizr[prop]);
       if (Modernizr[prop] !== true){
         console.log('break');
         return false;
@@ -50,53 +49,35 @@
     for (var key in groups){
       if (key !== 'default'){
         activeGroup = groupValidate(key, groups[key].split(' '));
-        console.log(activeGroup);
         if(activeGroup !== false){
           return activeGroup;
         }
       }//endif
     }
-    console.log('no groups matched');
     return activeGroup;
   }
   
   function replaceHref(href, router){
+    console.log(href);
     var newHref = [];
     if (router[href]){
       return router[href];
     }
     else{
       for (var key in router){
-      //console.log (key + ' ----> ' + router[key]);
       //regixify url from original link, put it into a variable
         keyReg = key.replace(/(\/|\.)/g, '\\$1');
       //replace the star with a regex pattern
-        keyReg = keyReg.replace("*", "(([\\w-_\\.?]+\\/?)+)");
+        keyReg = keyReg.replace("*", "(([\\w-_\\.?]+\\/?)+)?");
         exp = RegExp(keyReg); // and make it into a regex
-        //console.log(exp);
+        console.log(exp);
       
         if (href.match(exp)){ //if regex matches
-          console.log('MATCH');
-          var routerNew, routerOld, i, n; //href, key
-          routerNew = router[key];
-          routerOld = key;
-        //console.log(routerNew = routerNew.split('*')); //splits matched url at *
-        /*now that we've been able to match the key,
-        and we KNOW what the router says, we have to replace
-        the clicked HREF with the router definition*/
-        //HERE COMES SOME COMPLICATED ASS REGEX
-          console.log('clicked href = ' + href);
-          console.log('key = ' + key)
-          console.log('routermatch = ' + routerNew);
-        
-          routerNew = routerNew.split('/');
-          routerOld = routerOld.split('/');
+          var routerNew = router[key].split('/'),
+              routerOld = key.split('/');
+          //routerNew = routerNew.split('/');
+          //routerOld = routerOld.split('/');
           href = href.split('/');
-        
-          console.log('splits');
-          console.log('clicked href = ' + href);
-          console.log('key = ' + key)
-          console.log('routermatch = ' + routerNew);
           //if (href.length === routerNew.length){
             for (i = 0; i < href.length; i++){
               if(href[i] === routerNew[i]){
@@ -110,12 +91,9 @@
                      break;
                       }
                       else{
-                        console.log(' n ----- >>>> ' + href[n]);
                          newHref.push(href[n]);
                       }
                     }
-                  //newHref[i] = href[i];
-                  
                 }
                 else{
                   if (routerNew[i]){
@@ -125,7 +103,6 @@
                 }
               }
             }//for
-            console.log(newHref);
             newHref = newHref.join('/');
             console.log(newHref);
           //}//if
@@ -141,19 +118,10 @@
         }
         
         
-        /*console.log(key.match(exp));
-        if(key.match(exp)){
-          console.log(router[key]);
-          return router[key];
-        }*/
+      
       }
       }
-  
-    
-    /*here we need to account for a few things:
-     what if there's no match?
-     what if it's more than one link depth?
-    */
+
   
   
   this.Phoney = function(config) { //pass in objects here
@@ -164,14 +132,14 @@
   
   this.startListening = function(){
     var activeRouter = this.activeRouter;
-    //console.log(activeRouter);
+    console.log(activeRouter);
 
     window.onclick = function(event){
       console.log(event);
       element = event.srcElement;
       if (element.nodeName === "A") {
         element.setAttribute('href', replaceHref(element.getAttribute('href'), activeRouter));
-        console.log(element);
+        //console.log(element);
       }
   event.preventDefault();
 }
@@ -200,7 +168,8 @@ var config = {
       'groups.html' : 'groups-html5.html',
       'index.html' : 'index-html5.html',
       'somefolder/*': 'somehtml5folder/*', //this one will do matching for all subdirs
-      'somenewfolder/*/index' : 'somenewfolder/*/index5'
+      'somenewfolder/*/index' : 'somenewfolder/*/index5',
+      'allplayers.com/*' : 'allplayers.com/mobile/*'
     }
     
   }
