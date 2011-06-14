@@ -61,6 +61,7 @@
     console.log(href);
     var newHref = [];
     if (router[href]){
+      console.log(router[href]);
       return router[href];
     }
     else{
@@ -75,6 +76,7 @@
         if (href.match(exp)){ //if regex matches
           var routerNew = router[key].split('/'),
               routerOld = key.split('/');
+              console.log('match');
           //routerNew = routerNew.split('/');
           //routerOld = routerOld.split('/');
           href = href.split('/');
