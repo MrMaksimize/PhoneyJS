@@ -18,6 +18,36 @@
   <script type="text/javascript" src="modernizr.js"></script>
   <script type="text/javascript" src="toucher.js"></script>
   <script type="text/javascript" src="phoney.js"></script>
+  <script type="text/javascript">
+  
+  var config = {
+  groups : { //groups will be evaluated as they are defined
+    //groups are matched using AND.  if one of the properties does not match, the group falls out.
+    'html5': 'localStorage io',
+    'iphoneApp': 'iphone',
+    'default': 'default'
+  },
+  routers: {
+    'html5': { //routes for html5 group match
+      //search : replace
+      'http://www.google.com': 'http://www.bing.com',
+      'groups.html' : 'groups-html5.html',
+      'index.html' : 'index-html5.html',
+      '(somefolder)\\/([A-z0-9\\.]+)': 'somehtml5folder/$2', //all escape \ must be \\
+      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': 'somenewfolder/$2/index5',
+      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': '$1/anothernewfolder/$2/$35'
+    }
+    
+  }
+}
+
+var Phoney = Phoney(config);
+
+window.onload = function(){
+  console.log('ready');
+  Phoney.startListening();
+}
+  </script>
   <!--End Scripts-->
 </head>
 <body>
@@ -39,43 +69,6 @@
             <li><a href="somenewfolder/dollop/index">
             somenewfolder/dollop/index -> somenewfolder/anothernewfolder/dollop/index5
             </a></li>
-            <h3>router[6]</h3>
-            <li><a href="http://allplayers.com/">http://allplayers.com -> http://allplayers.com/mobile </a></li>
-            <li><a href="http://allplayers.com/html">http://allplayers.com/html -> http://allplayers.com/mobile/html5 </a></li>
-            
-          <li>
-            <a href="t1">t1 - > path5 </a>
-          </li>
-          <li>
-            <a href="t2/groups">t2/groups - > path/groups5 </a>
-          </li>
-          <li>
-            <a href="t3/groups">t3/groups - > path5/groups5 </a>
-          </li>
-          <li>
-            <a href="t4/groups/dir">t4/groups/dir --> path/groups/dir5 </a>
-          </li>
-          <li>
-            <a href="t5/file5">t5/file5.html - > path/file5.html </a>
-          </li>
-          <li>
-            <a href="t6/groups">t6/groups - > path/groups/mobile </a>
-          </li>
-          <li>
-            <a href="t7/groups">t7/groups - > path/groups5/mobile </a>
-          </li>
-          <li>
-            <a href="t8/groups/desktop">t8/groups/desktop - > path/groups/mobile </a>
-          </li>
-          <li>
-            <a href="t9/groups/desktop">t9/groups/desktop - > path5/groups </a>
-          </li>
-          <li>
-            <a href="t10/groups/desktop">t10/groups/desktop - > path/groups/mobile </a>
-          </li>
-          <li>
-            <a href="t11/groups">t11/groups -> path/mobile/dire/groups</a>
-          </li>
           
         
         </ul>
