@@ -60,10 +60,10 @@
   function replaceHref(oldHref, router){
     console.log('clicked --' + oldHref);
     //lets' define some variables
-    var protocol = /((?:[a-z0-9_\-]{1,5})(?::\/\/))/g,
+    var //protocol = /((?:[a-z0-9_\-]{1,5})(?::\/\/))/g,
         href = oldHref,
-        newHref = [],
-        oldProtocol;
+        newHref = [];
+        //oldProtocol;
     //first things first.  if there's a direct match...
     //handle 1:1 router matches only, no wilds
     if (router[href]){
@@ -72,25 +72,24 @@
     }
     //ok the easy part's over.  no matches direct in route
     else{
-      oldProtocol = href.match(protocol);
-      console.log(oldProtocol);
-      href = href.replace(protocol, '');
+      //oldProtocol = href.match(protocol);
+      //console.log(oldProtocol);
+      //href = href.replace(protocol, '');
       //sanitize url, removing beginning and ending slashes
       //href = href.replace(/^\/|\/$/g, '');
       //href = href.split('/');
-      console.log(href);
+      //console.log(href);
       //run thru looking for matches
       for (var key in router){
         rKey = new RegExp(key);
         console.log(rKey);
-        console.log(href.match(rKey));
         if (href.match(rKey)){
           nKey = new RegExp(router[key]);
           href = href.replace(rKey, nKey);
           href = href.replace(/^\/|\/$/g, '');
-          if (oldProtocol){
-            href = oldProtocol + href;
-          }
+          //if (oldProtocol){
+           // href = oldProtocol + href;
+          //}
           console.log(href);
           return href;
         }
@@ -146,7 +145,9 @@ var config = {
       'http://www.google.com': 'http://www.bing.com',
       'groups.html' : 'groups-html5.html',
       'index.html' : 'index-html5.html',
-      '(somefolder)\\/([A-z0-9\\.]+)': 'somehtml5folder/$2' //all escape \ must be \\
+      '(somefolder)\\/([A-z0-9\\.]+)': 'somehtml5folder/$2', //all escape \ must be \\
+      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': 'somenewfolder/$2/index5',
+      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': '$1/anothernewfolder/$2/$35',
     }
     
   }
