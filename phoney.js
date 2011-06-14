@@ -57,72 +57,49 @@
     return activeGroup;
   }
   
-  function replaceHref(href, router){
-    console.log(href);
-    var newHref = [];
+  function replaceHref(oldHref, router){
+    console.log('clicked --' + oldHref);
+    //lets' define some variables
+    var protocol = /((?:[a-z0-9_\-]{1,5})(?::\/\/))/g,
+        href = oldHref,
+        newHref = [],
+        oldProtocol;
+    //first things first.  if there's a direct match...
+    //handle 1:1 router matches only, no wilds
     if (router[href]){
       console.log(router[href]);
       return router[href];
     }
+    //ok the easy part's over.  no matches direct in route
     else{
+      oldProtocol = href.match(protocol);
+      console.log(oldProtocol);
+      href = href.replace(protocol, '');
+      //sanitize url, removing beginning and ending slashes
+      //href = href.replace(/^\/|\/$/g, '');
+      //href = href.split('/');
+      console.log(href);
+      //run thru looking for matches
       for (var key in router){
-      //regixify url from original link, put it into a variable
-        keyReg = key.replace(/(\/|\.)/g, '\\$1');
-      //replace the star with a regex pattern
-        keyReg = keyReg.replace("*", "(([\\w-_\\.?]+\\/?)+)?");
-        exp = RegExp(keyReg); // and make it into a regex
-        console.log(exp);
-      
-        if (href.match(exp)){ //if regex matches
-          var routerNew = router[key].split('/'),
-              routerOld = key.split('/');
-              console.log('match');
-          //routerNew = routerNew.split('/');
-          //routerOld = routerOld.split('/');
-          href = href.split('/');
-          //if (href.length === routerNew.length){
-            for (i = 0; i < href.length; i++){
-              if(href[i] === routerNew[i]){
-                console.log('  ----- >>>> ' + routerNew[i]);
-                newHref.push(routerNew[i]);
-              }
-              else {
-                if(routerNew[i] === '*'){
-                    for (n = i; n < href.length; n++){
-                      if (href[n] === routerOld[i+1]){
-                     break;
-                      }
-                      else{
-                         newHref.push(href[n]);
-                      }
-                    }
-                }
-                else{
-                  if (routerNew[i]){
-                    newHref.push(routerNew[i]);
-                  }
-                  
-                }
-              }
-            }//for
-            newHref = newHref.join('/');
-            console.log(newHref);
-          //}//if
-          return newHref;
-          
-          }//if match
-          
-          //console.log(href.match(exp));
-          
-          //console.log(routerNew = )
-          
-          //return router[key];
+        rKey = new RegExp(key);
+        console.log(rKey);
+        console.log(href.match(rKey));
+        if (href.match(rKey)){
+          nKey = new RegExp(router[key]);
+          href = href.replace(rKey, nKey);
+          href = href.replace(/^\/|\/$/g, '');
+          if (oldProtocol){
+            href = oldProtocol + href;
+          }
+          console.log(href);
+          return href;
         }
-        
-        
+      }
+      //so if we haven't returned by now that means there's no match.  so return oldie
+      return oldHref;
       
-      }
-      }
+    }
+  }
 
   
   
@@ -141,7 +118,7 @@
       element = event.srcElement;
       if (element.nodeName === "A") {
         element.setAttribute('href', replaceHref(element.getAttribute('href'), activeRouter));
-        //console.log(element);
+        console.log(element);
       }
   event.preventDefault();
 }
@@ -169,9 +146,7 @@ var config = {
       'http://www.google.com': 'http://www.bing.com',
       'groups.html' : 'groups-html5.html',
       'index.html' : 'index-html5.html',
-      'somefolder/*': 'somehtml5folder/*', //this one will do matching for all subdirs
-      'somenewfolder/*/index' : 'somenewfolder/*/index5',
-      'allplayers.com/*' : 'allplayers.com/mobile/*'
+      '(somefolder)\\/([A-z0-9\\.]+)': 'somehtml5folder/$2' //all escape \ must be \\
     }
     
   }
