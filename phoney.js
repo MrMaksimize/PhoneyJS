@@ -58,10 +58,12 @@
   }
   
   function replaceHref(oldHref, router){
-    console.log('clicked --' + oldHref);
+    console.log(oldHref);
     //lets' define some variables
-    var //protocol = /((?:[a-z0-9_\-]{1,5})(?::\/\/))/g,
-        href = oldHref,
+   // var //protocol = /((?:[a-z0-9_\-]{1,5})(?::\/\/))/g,
+    var href = oldHref,
+        rKey,
+        nKey,
         newHref = [];
         //oldProtocol;
     //first things first.  if there's a direct match...
@@ -84,8 +86,10 @@
         rKey = new RegExp(key);
         console.log(rKey);
         if (href.match(rKey)){
-          nKey = new RegExp(router[key]);
+          nKey = router[key];
           href = href.replace(rKey, nKey);
+          //above is where safari fails
+          //console.log(href.match(rKey));
           href = href.replace(/^\/|\/$/g, '');
           //if (oldProtocol){
            // href = oldProtocol + href;
@@ -117,7 +121,8 @@
       element = event.srcElement;
       if (element.nodeName === "A") {
         element.setAttribute('href', replaceHref(element.getAttribute('href'), activeRouter));
-        console.log(element);
+        alert(element);
+        
       }
   event.preventDefault();
 }
@@ -147,7 +152,7 @@ var config = {
       'index.html' : 'index-html5.html',
       '(somefolder)\\/([A-z0-9\\.]+)': 'somehtml5folder/$2', //all escape \ must be \\
       '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': 'somenewfolder/$2/index5',
-      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': '$1/anothernewfolder/$2/$35',
+      '(somenewfolder)\\/([A-z0-9\\.]+)/([A-z0-9\\.]+)': '$1/anothernewfolder/$2/$35'
     }
     
   }
